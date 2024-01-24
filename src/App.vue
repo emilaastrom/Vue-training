@@ -1,19 +1,16 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-import type { text } from 'stream/consumers';
+import WelcomeMessage from './components/WelcomeMessage.vue'
 </script>
 
 <template>
   <header>
-    <!-- <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" /> -->
-
     <div class="wrapper">
-      <HelloWorld msg="Kalkulator i Vue.js!" />
+      <WelcomeMessage msg="Kalkulator i Vue.js!" />
 
       <nav>
         <RouterLink to="/">Hjem</RouterLink>
-        <RouterLink to="/about">Oppgavebeskrivelse</RouterLink>
+        <RouterLink to="/oppgave">Oppgavebeskrivelse</RouterLink>
       </nav>
     </div>
   </header>
