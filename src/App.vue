@@ -8,7 +8,7 @@ import WelcomeMessage from './components/WelcomeMessage.vue'
     <div class="wrapper">
       <WelcomeMessage msg="Kalkulator i Vue.js!" />
 
-      <nav>
+      <nav id="border">
         <RouterLink to="/">Hjem</RouterLink>
         <RouterLink to="/oppgave">Oppgavebeskrivelse</RouterLink>
       </nav>
