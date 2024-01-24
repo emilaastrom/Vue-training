@@ -110,7 +110,6 @@ export default {
 </script>
 
 <style scoped>
-
 #operations {
   background-color: rgba(19, 171, 74, 0.1);
   transition: background-color 2s cubic-bezier(0, 1, 0.2, 1);

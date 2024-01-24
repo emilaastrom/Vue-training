@@ -1,22 +1,16 @@
 <script setup lang="ts">
-
-import CalculatorComponent from '@/components/CalculatorComponent.vue';
-
+import CalculatorComponent from '@/components/CalculatorComponent.vue'
 </script>
 
 <template>
   <main>
-
     <div class="home">
-
-    <CalculatorComponent />
-
+      <CalculatorComponent />
     </div>
   </main>
 </template>
 
 <style>
-
 .home {
   padding: 20px;
   margin: 25px auto;
