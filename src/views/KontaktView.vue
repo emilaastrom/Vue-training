@@ -1,17 +1,15 @@
 <script setup lang="ts">
-import CalculatorComponent from '../components/CalculatorComponent.vue'
+import KontaktSkjema from '../components/KontaktSkjemaComponent.vue'
 </script>
 
 <template>
-  <main>
-    <div class="home">
-      <CalculatorComponent />
-    </div>
-  </main>
+  <div class="about">
+    <KontaktSkjema />
+  </div>
 </template>
 
 <style>
-.home {
+.about {
   padding: 20px;
   margin: 25px auto;
   display: flex;
@@ -19,7 +17,7 @@ import CalculatorComponent from '../components/CalculatorComponent.vue'
   border-left: 1px solid var(--color-border);
   justify-content: center;
   align-items: center;
-  min-width: 100%;
+  min-width: 528px;
 }
 
 @media (min-width: 1024px) {

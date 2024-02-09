@@ -31,6 +31,7 @@
   display: flex;
   flex-direction: column;
   border-left: 1px solid var(--color-border);
+  max-width: 100%;
 }
 
 @media (min-width: 1024px) {

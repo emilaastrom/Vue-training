@@ -11,6 +11,7 @@ import WelcomeMessage from './components/WelcomeMessage.vue'
       <nav id="border">
         <RouterLink to="/">Hjem</RouterLink>
         <RouterLink to="/oppgave">Oppgavebeskrivelse</RouterLink>
+        <RouterLink to="/kontakt">Kontakt oss</RouterLink>
       </nav>
     </div>
   </header>
