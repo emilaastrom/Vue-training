@@ -13,7 +13,6 @@ email.value = store.contact.email
 
 const updateMailName = (name: string, email: string) => {
   store.updateMailName(name, email)
-  message.value = `submitForm er kjørt`
 }
 
 const resetForm = () => {
@@ -23,24 +22,24 @@ const resetForm = () => {
 }
 
 const submitForm = async () => {
-    try {
-      console.log('STORE: submitting form')
-      const response = await fetch("http://localhost:3001/responses", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name:  name.value,
-          email: email.value,
-          message: message.value,
-        })
-      });
+  updateMailName(name.value, email.value)
+  try {
+    console.log('STORE: submitting form')
+    const response = await fetch("http://localhost:3001/responses", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name:  name.value,
+        email: email.value,
+        message: message.value,
+      })
+    });
 
-      const responseData = await response.json();
+    const responseData = await response.json();
 
-
-      alert(`Hei ${responseData.name} 🤓 Vi har mottatt din henvendelse. Vi vil svare deg på ${responseData.email} så snart som mulig.`)
+    alert(`Hei ${responseData.name} 🤓 Vi har mottatt din henvendelse. Vi vil svare deg på ${responseData.email} så snart som mulig.`)
 
     } catch (error) {
       alert("Feil ved innsending av forespørsel!");

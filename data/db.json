@@ -5,6 +5,18 @@
       "name": "Emil Aa",
       "email": "e@a.c",
       "message": "Testmelding! "
+    },
+    {
+      "id": "0026",
+      "name": "Kurt",
+      "email": "Kurt@kurt.no",
+      "message": "Testmelding 🤠"
+    },
+    {
+      "id": "6b1d",
+      "name": "Jonas",
+      "email": "Jo@na.s",
+      "message": "submitForm er kjørt"
     }
   ]
 }

@@ -3,8 +3,8 @@ import { ref } from 'vue'
 
 export const contactStore = defineStore('contact', () => {
   const contact = ref({
-    name: 'testnavn',
-    email: 'testemail@testemail.com'
+    name: '',
+    email: ''
   })
 
   function updateName(name: string) {
@@ -16,7 +16,6 @@ export const contactStore = defineStore('contact', () => {
   }
 
   function updateMailName(name: string, email: string) {
-    submitForm;
     console.log('STORE LOG: Navn: ' + name + ' E-post: ' + email)
     contact.value.email = email
     contact.value.name = name    
