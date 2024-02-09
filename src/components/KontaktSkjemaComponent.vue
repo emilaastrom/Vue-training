@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { exit } from 'process';
 import { contactStore } from '../stores/contact'
 import { ref } from 'vue'
 
@@ -10,14 +11,9 @@ const message = ref('')
 name.value = store.contact.name
 email.value = store.contact.email
 
-const updateName = (name: string) => {
-  store.updateName(name)
-}
-
 const updateMailName = (name: string, email: string) => {
-    alert(`Hei ${name} 🤓 Vi har mottatt din henvendelse. Vi vil svare deg på ${email} så snart som mulig.`)
-    message.value = ``
   store.updateMailName(name, email)
+  message.value = `submitForm er kjørt`
 }
 
 const resetForm = () => {
@@ -25,6 +21,32 @@ const resetForm = () => {
   name.value = ''
   email.value = ''
 }
+
+const submitForm = async () => {
+    try {
+      console.log('STORE: submitting form')
+      const response = await fetch("http://localhost:3001/responses", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name:  name.value,
+          email: email.value,
+          message: message.value,
+        })
+      });
+
+      const responseData = await response.json();
+
+
+      alert(`Hei ${responseData.name} 🤓 Vi har mottatt din henvendelse. Vi vil svare deg på ${responseData.email} så snart som mulig.`)
+
+    } catch (error) {
+      alert("Feil ved innsending av forespørsel!");
+    }
+  };
+
 </script>
 
 <template>
@@ -46,7 +68,7 @@ const resetForm = () => {
     </div>
 
     <div id="buttonLine">
-      <button id="inputButton" type="submit" @click="updateMailName(name, email)">Send</button>
+      <button id="inputButton" type="submit" @click="submitForm()">Send</button>
       <button id="inputButton" @click="resetForm()">Reset</button>
     </div>
 </form>
