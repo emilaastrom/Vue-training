@@ -8,7 +8,7 @@ defineProps<{
   <div class="greetings">
     <h1 class="green">{{ msg }}</h1>
     <h3>
-      Dette er en del av øving 2 i
+      Dette er en del av øving 2+3 i
       <a
         href="https://ntnu.blackboard.com/ultra/courses/_40101_1/cl/outline"
         target="_blank"
