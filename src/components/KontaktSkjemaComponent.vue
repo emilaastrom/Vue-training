@@ -22,7 +22,8 @@ const validInput = () => {
 }
 
 const toggleInfo = () => {
-  if (message.value != '' || messageValid.value === false) {
+  
+  if ((message.value != '' && email.value != '' && name.value != '') || messageValid.value === true) {
     showInfo.value = false
   }
   if (messageValid.value === false ){
@@ -38,6 +39,7 @@ const resetForm = () => {
   store.resetForm()
   name.value = ''
   email.value = ''
+  message.value = ''
 }
 
 const submitForm = async () => {
@@ -72,17 +74,17 @@ const submitForm = async () => {
   <form @submit.prevent="formSubmit">
     <div id="inputLine">
       <label for="name">Navn: </label>
-      <input type="text" id="name" placeholder="Navn" v-model="name" required />
+      <input type="text" id="name" placeholder="Navn" @input="validInput" v-model="name" required />
     </div>
 
     <div id="inputLine">
       <label for="email">E-post:</label>
-      <input type="email" id="email" placeholder="E-post" v-model="email" required />
+      <input type="email" id="email" placeholder="E-post" @input="validInput" v-model="email" required />
     </div>
 
     <div id="inputLine">
       <label for="message">Melding:</label>
-      <textarea id="message" placeholder="Melding" v-model="message" @input="validInput" required />
+      <textarea id="message" placeholder="Din tilbakemelding" v-model="message" @input="validInput" required />
     </div>
 
     <div id="buttonLine">
@@ -114,6 +116,21 @@ label {
   font-weight: 500;
   padding: 1rem;
   align-items: center;
+}
+
+textarea, input {
+  background-color: #f5f5f5;
+  border: 1px solid #f5f5f5;
+  border-radius: 5px;
+  padding: 1rem;
+  margin: 2px;
+  font-weight: 500;
+  align-items: center;
+  justify-content: center;
+  min-width: 32%;
+  min-height: 32%;
+  resize: none;
+  transition: background-color 0.3s;
 }
 
 #buttonLine {
