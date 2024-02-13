@@ -10,6 +10,25 @@ const email = ref('')
 const message = ref('')
 name.value = store.contact.name
 email.value = store.contact.email
+const messageValid = ref(false)
+const showInfo = ref(false);
+
+const validInput = () => {
+  if (name.value.length > 0 && email.value.length > 0 && message.value.length > 0) {
+    messageValid.value = true
+  } else {
+    messageValid.value = false
+  }
+}
+
+const toggleInfo = () => {
+  if (message.value != '' || messageValid.value === false) {
+    showInfo.value = false
+  }
+  if (messageValid.value === false ){
+   showInfo.value = !showInfo.value
+  }
+}
 
 const updateMailName = (name: string, email: string) => {
   store.updateMailName(name, email)
@@ -42,7 +61,7 @@ const submitForm = async () => {
     alert(`Hei ${responseData.name} 🤓 Vi har mottatt din henvendelse. Vi vil svare deg på ${responseData.email} så snart som mulig.`)
 
     } catch (error) {
-      alert("Feil ved innsending av forespørsel!");
+      console.log('FROM STORE, error submitting form: ', error)
     }
   };
 
@@ -63,13 +82,17 @@ const submitForm = async () => {
 
     <div id="inputLine">
       <label for="message">Melding:</label>
-      <textarea id="message" placeholder="Melding" v-model="message" required />
+      <textarea id="message" placeholder="Melding" v-model="message" @input="validInput" required />
     </div>
 
     <div id="buttonLine">
-      <button id="inputButton" type="submit" @click="submitForm()">Send</button>
+      <button id="inputButton" type="submit" @click="submitForm()" 
+      :disabled="!messageValid" :class="{ 'disabled': !messageValid }" 
+      @mouseover="toggleInfo" 
+      @mouseout="toggleInfo">Send</button>
       <button id="inputButton" @click="resetForm()">Reset</button>
     </div>
+    <div v-show="showInfo">⚠️ Fyll inn alle feltene ⚠️</div>
 </form>
 </template>
 
@@ -139,5 +162,11 @@ label {
 #inputButton:active {
   background-color: #347836;
   color: rgb(255, 255, 255);
+}
+
+#inputButton:disabled {
+  background-color: #d3d3d3;
+  color: black;
+  cursor: not-allowed;
 }
 </style>
