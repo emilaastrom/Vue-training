@@ -53,8 +53,8 @@ function reversedAnswers() {
 
 onErrorCaptured((err) => {
   console.log('An error occurred: ' + err.message)
-  return false;
-});
+  return false
+})
 </script>
 
 <template>

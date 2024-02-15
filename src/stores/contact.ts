@@ -18,13 +18,13 @@ export const contactStore = defineStore('contact', () => {
   function updateMailName(name: string, email: string) {
     console.log('STORE LOG: Navn: ' + name + ' E-post: ' + email)
     contact.value.email = email
-    contact.value.name = name    
+    contact.value.name = name
   }
 
   function resetForm() {
     console.log('STORE: resetting form')
-    contact.value.name = ""
-    contact.value.email = ""
+    contact.value.name = ''
+    contact.value.email = ''
   }
 
   return {
@@ -32,6 +32,6 @@ export const contactStore = defineStore('contact', () => {
     updateName,
     updateMail,
     updateMailName,
-    resetForm,
+    resetForm
   }
 })
