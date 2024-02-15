@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { exit } from 'process';
+import { exit } from 'process'
 import { contactStore } from '../stores/contact'
 import { ref } from 'vue'
 
@@ -11,7 +11,7 @@ const message = ref('')
 name.value = store.contact.name
 email.value = store.contact.email
 const messageValid = ref(false)
-const showInfo = ref(false);
+const showInfo = ref(false)
 
 const validInput = () => {
   if (name.value.length > 0 && email.value.length > 0 && message.value.length > 0) {
@@ -22,12 +22,14 @@ const validInput = () => {
 }
 
 const toggleInfo = () => {
-  
-  if ((message.value != '' && email.value != '' && name.value != '') || messageValid.value === true) {
+  if (
+    (message.value != '' && email.value != '' && name.value != '') ||
+    messageValid.value === true
+  ) {
     showInfo.value = false
   }
-  if (messageValid.value === false ){
-   showInfo.value = !showInfo.value
+  if (messageValid.value === false) {
+    showInfo.value = !showInfo.value
   }
 }
 
@@ -46,27 +48,27 @@ const submitForm = async () => {
   updateMailName(name.value, email.value)
   try {
     console.log('STORE: submitting form')
-    const response = await fetch("http://localhost:3001/responses", {
-      method: "POST",
+    const response = await fetch('http://localhost:3001/responses', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        name:  name.value,
+        name: name.value,
         email: email.value,
-        message: message.value,
+        message: message.value
       })
-    });
+    })
 
-    const responseData = await response.json();
+    const responseData = await response.json()
 
-    alert(`Hei ${responseData.name} 🤓 Vi har mottatt din henvendelse. Vi vil svare deg på ${responseData.email} så snart som mulig.`)
-
-    } catch (error) {
-      console.log('FROM STORE, error submitting form: ', error)
-    }
-  };
-
+    alert(
+      `Hei ${responseData.name} 🤓 Vi har mottatt din henvendelse. Vi vil svare deg på ${responseData.email} så snart som mulig.`
+    )
+  } catch (error) {
+    console.log('FROM STORE, error submitting form: ', error)
+  }
+}
 </script>
 
 <template>
@@ -79,23 +81,43 @@ const submitForm = async () => {
 
     <div id="inputLine">
       <label for="email">E-post:</label>
-      <input type="email" id="email" placeholder="E-post" @input="validInput" v-model="email" required />
+      <input
+        type="email"
+        id="email"
+        placeholder="E-post"
+        @input="validInput"
+        v-model="email"
+        required
+      />
     </div>
 
     <div id="inputLine">
       <label for="message">Melding:</label>
-      <textarea id="message" placeholder="Din tilbakemelding" v-model="message" @input="validInput" required />
+      <textarea
+        id="message"
+        placeholder="Din tilbakemelding"
+        v-model="message"
+        @input="validInput"
+        required
+      />
     </div>
 
     <div id="buttonLine">
-      <button id="inputButton" type="submit" @click="submitForm()" 
-      :disabled="!messageValid" :class="{ 'disabled': !messageValid }" 
-      @mouseover="toggleInfo" 
-      @mouseout="toggleInfo">Send</button>
+      <button
+        id="inputButton"
+        type="submit"
+        @click="submitForm()"
+        :disabled="!messageValid"
+        :class="{ disabled: !messageValid }"
+        @mouseover="toggleInfo"
+        @mouseout="toggleInfo"
+      >
+        Send
+      </button>
       <button id="inputButton" @click="resetForm()">Reset</button>
     </div>
     <div v-show="showInfo">⚠️ Fyll inn alle feltene ⚠️</div>
-</form>
+  </form>
 </template>
 
 <style>
@@ -118,7 +140,8 @@ label {
   align-items: center;
 }
 
-textarea, input {
+textarea,
+input {
   background-color: #f5f5f5;
   border: 1px solid #f5f5f5;
   border-radius: 5px;
