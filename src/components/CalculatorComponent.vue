@@ -1,35 +1,92 @@
-<template>
-  <!-- Your component's template goes here -->
+<script setup>
+import { onErrorCaptured, ref } from 'vue'
+const expression = ref('')
+let answers = ['2', '542', '31', '35']
+const invalid = ref(false)
 
+function onKeyPress(event) {
+  invalid.value = false
+  if (event.key === 'Enter') {
+    handleInput('ans')
+  } else if (event.key === 'Escape') {
+    handleInput('c')
+  } else if (/^[a-zA-Z]$/.test(event.key)) {
+    event.preventDefault()
+  }
+}
+
+function handleInput(value) {
+  invalid.value = false
+  try {
+    if (value === 'Backspace') {
+      expression.value = expression.value.slice(0, -1)
+      return
+    } else if (value === 'c') {
+      expression.value = ''
+      return
+    } else if (value === 'ans') {
+      if (
+        eval(expression.value) === undefined ||
+        eval(expression.value) === null ||
+        eval(expression.value) === Infinity ||
+        eval(expression.value) === -Infinity
+      ) {
+        invalid.value = true
+        new Error('Ugyldig input')
+      }
+      expression.value = eval(expression.value)
+      if (answers.length > 19) {
+        answers.shift()
+      }
+      answers.push(expression.value.toString())
+      return
+    }
+    expression.value += value
+  } catch (error) {
+    console.log('An error occurred: ' + error.message)
+  }
+}
+
+function reversedAnswers() {
+  return answers.slice().reverse()
+}
+
+onErrorCaptured((err) => {
+  console.log('An error occurred: ' + err.message)
+  return false;
+});
+</script>
+
+<template>
   <div>
-    <input type="text" v-model="expression" @keydown="onKeyPress" />
+    <input type="text" id="expressionField" v-model="expression" @keydown="onKeyPress" />
   </div>
 
   <div id="mainCalculator">
     <div class="buttons">
       <div>
-        <button @click="handleInput('+')" id="operations">+</button>
-        <button @click="handleInput(1)">1</button>
-        <button @click="handleInput(2)">2</button>
-        <button @click="handleInput(3)">3</button>
+        <button @click="handleInput('+')" id="plusOperator" class="operator">+</button>
+        <button @click="handleInput('1')" id="button1">1</button>
+        <button @click="handleInput('2')" id="button2">2</button>
+        <button @click="handleInput('3')" id="button3">3</button>
       </div>
       <div>
-        <button @click="handleInput('-')" id="operations">-</button>
-        <button @click="handleInput(4)">4</button>
-        <button @click="handleInput(5)">5</button>
-        <button @click="handleInput(6)">6</button>
+        <button @click="handleInput('-')" id="minusOperator" class="operator">-</button>
+        <button @click="handleInput('4')" id="button4">4</button>
+        <button @click="handleInput('5')" id="button5">5</button>
+        <button @click="handleInput('6')" id="button6">6</button>
       </div>
       <div>
-        <button @click="handleInput('*')" id="operations">*</button>
-        <button @click="handleInput(7)">7</button>
-        <button @click="handleInput(8)">8</button>
-        <button @click="handleInput(9)">9</button>
+        <button @click="handleInput('*')" id="multiplicationOperator" class="operator">*</button>
+        <button @click="handleInput('7')" id="button7">7</button>
+        <button @click="handleInput('8')" id="button8">8</button>
+        <button @click="handleInput('9')" id="button9">9</button>
       </div>
       <div>
-        <button @click="handleInput('/')" id="operations">/</button>
-        <button @click="handleInput('c')" id="delete">C</button>
-        <button @click="handleInput(0)">0</button>
-        <button @click="handleInput('ans')" id="equals">=</button>
+        <button @click="handleInput('/')" id="divideOperator" class="operator">/</button>
+        <button @click="handleInput('c')" id="deleteButton" class="delete">C</button>
+        <button @click="handleInput('0')" id="button0">0</button>
+        <button @click="handleInput('ans')" id="equalsButton" class="equals">=</button>
       </div>
     </div>
 
@@ -39,88 +96,26 @@
       </div>
       <input
         id="answers"
-        v-for="(svar, index) in reversedAnswers"
+        v-for="(svar, index) in reversedAnswers()"
         :key="index"
-        v-model="reversedAnswers[index]"
+        v-model="reversedAnswers()[index]"
         readonly
       />
     </div>
   </div>
 </template>
 
-<script>
-export default {
-  // Component JavaScript logic goes here
-  data() {
-    return {
-      expression: '',
-      answers: [],
-      invalid: false
-    }
-  },
-  methods: {
-    // Component methods go here
-    onKeyPress(event) {
-      this.invalid = false
-      if (event.key === 'Enter') {
-        this.handleInput('ans')
-        return
-      } else if (event.key === 'Escape') {
-        this.handleInput('c')
-      } else if (/^[a-zA-Z]$/.test(event.key)) {
-        event.preventDefault()
-      }
-    },
-
-    handleInput(value) {
-      this.invalid = false
-      if (value === 'Backspace') {
-        this.expression = this.expression.slice(0, -1)
-        return
-      } else if (value === 'c') {
-        this.expression = ''
-        return
-      } else if (value === 'ans') {
-        if (
-          eval(this.expression) === undefined ||
-          eval(this.expression) === null ||
-          eval(this.expression) === Infinity ||
-          eval(this.expression) === -Infinity
-        ) {
-          this.invalid = true
-          return
-        }
-        this.expression = eval(this.expression)
-        if (this.answers.length > 19) {
-          this.answers.shift()
-        }
-        this.answers.push(this.expression)
-        return
-      }
-      this.expression += value
-    }
-  },
-  computed: {
-    // Component computed properties go here
-    reversedAnswers() {
-      return this.answers.slice().reverse()
-    }
-  }
-}
-</script>
-
 <style scoped>
-#operations {
+.operator {
   background-color: rgba(19, 171, 74, 0.1);
   transition: background-color 2s cubic-bezier(0, 1, 0.2, 1);
 }
-#operations:hover {
+.operator:hover {
   background-color: rgba(19, 171, 74, 0.66);
   color: var(--color-background);
 }
 
 input {
-  width: 100%;
   height: 50px;
   margin: 5px;
   border-radius: 5px;
@@ -130,9 +125,6 @@ input {
   font-size: 2rem;
   text-align: right;
   padding-right: 10px;
-}
-
-input {
   transition: box-shadow 2s cubic-bezier(0, 1, 0.2, 1.55);
   width: 432px;
 }
@@ -172,9 +164,6 @@ button:active {
   justify-content: center;
 }
 
-.buttons {
-}
-
 #answers {
   width: 181px;
   height: 25px;
@@ -192,7 +181,6 @@ button:active {
   width: 200px;
   border-left: 1px solid var(--color-border);
   background-color: rgba(177, 177, 177, 0.05);
-  position: fixed-bottom;
   display: flex;
   flex-direction: column;
   max-width: 200px;
@@ -205,12 +193,12 @@ button:active {
   display: flex;
 }
 
-#delete {
+.delete {
   background-color: rgba(60, 60, 60, 0.1);
   transition: background-color 2s cubic-bezier(0, 1, 0.2, 1);
 }
 
-#delete:hover {
+.delete:hover {
   background-color: rgba(60, 60, 60, 0.66);
   color: var(--color-background);
 }
